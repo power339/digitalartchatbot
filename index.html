@@ -6,21 +6,27 @@
     <title>Digital Art Inspiration Assistant</title>
     <style>
         :root {
-            --primary: #2b64c0;
-            --secondary: #104370;
-            --accent: #7cd4ea;
-            --light: #73a1ce;
-            --dark: #343a40;
+            --primary: #8A2BE2;  /* Vibrant violet */
+            --secondary: #00F5FF;  /* Electric cyan */
+            --accent: #FF6B6B;  /* Coral pink */
+            --light: #F8F9FA;  /* Light gray */
+            --dark: #212529;  /* Dark charcoal */
+            --success: #20C997;  /* Teal */
+            --warning: #FFD43B;  /* Golden yellow */
+            --purple: #9775FA;  /* Soft purple */
+            --pink: #F783AC;  /* Blush pink */
+            --blue: #4DABF7;  /* Sky blue */
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #6a9ae8 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             margin: 0;
             padding: 0;
             min-height: 100vh;
             color: var(--dark);
+            overflow-x: hidden;
         }
         
         .container {
@@ -32,179 +38,403 @@
         header {
             text-align: center;
             margin-bottom: 2rem;
-            animation: fadeIn 1s ease-in;
+            animation: fadeIn 1s ease-in, slideDown 0.8s ease-out;
+            position: relative;
         }
         
         h1 {
             color: var(--primary);
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--purple), var(--pink), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--purple), var(--pink), var(--blue));
+            border-radius: 2px;
+            animation: expand 1.5s ease-out forwards;
         }
         
         .subtitle {
-            color: var(--secondary);
+            color: var(--dark);
             font-size: 1.2rem;
             margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-in 0.5s forwards;
         }
         
         .chat-container {
-            background-color: rgb(178, 215, 230);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            animation: slideUp 0.5s ease-out;
+            animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                       glow 3s infinite alternate;
+            transform-origin: bottom;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            position: relative;
+        }
+        
+        .chat-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--purple), var(--pink), var(--blue));
+            animation: rainbow 8s linear infinite;
         }
         
         .chat-header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(45deg, var(--purple), var(--pink));
             color: white;
-            padding: 1rem;
-            font-weight: bold;
+            padding: 1.2rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
+            box-shadow: 0 2px 10px rgba(138, 43, 226, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chat-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0) 45%,
+                rgba(255,255,255,0.5) 50%,
+                rgba(255,255,255,0) 55%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
         }
         
         .chat-header i {
-            margin-right: 10px;
-            font-size: 1.2rem;
+            margin-right: 12px;
+            font-size: 1.4rem;
+            animation: pulse 2s infinite, float 3s ease-in-out infinite;
         }
         
         .chat-messages {
             height: 400px;
             overflow-y: auto;
-            padding: 1.5rem;
+            padding: 1.8rem;
             display: flex;
             flex-direction: column;
+            background-color: rgba(248, 249, 250, 0.9);
+            scroll-behavior: smooth;
         }
         
         .message {
             max-width: 80%;
-            padding: 0.8rem 1.2rem;
-            margin-bottom: 1rem;
-            border-radius: 18px;
-            animation: fadeIn 0.3s ease-out;
+            padding: 1rem 1.4rem;
+            margin-bottom: 1.2rem;
+            border-radius: 20px;
+            animation: fadeIn 0.4s ease-out, slideIn 0.4s ease-out;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            position: relative;
+            opacity: 0;
+            transform: translateY(10px);
+            animation-fill-mode: forwards;
+            transition: all 0.3s ease;
         }
         
         .bot-message {
             align-self: flex-start;
-            background-color: #f1f1f1;
+            background-color: white;
             border-bottom-left-radius: 5px;
+            border: 1px solid rgba(0,0,0,0.05);
+            animation-delay: 0.1s;
+        }
+        
+        .bot-message:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .user-message {
             align-self: flex-end;
-            background-color: var(--primary);
-            color: rgb(134, 170, 242);
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            color: white;
             border-bottom-right-radius: 5px;
+            animation-delay: 0.1s;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        .user-message:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
         }
         
         .input-area {
             display: flex;
-            padding: 1rem;
-            border-top: 1px solid #eee;
-            background-color: #f9f9f9;
+            padding: 1.2rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            background-color: white;
+            position: relative;
         }
         
         #user-input {
             flex: 1;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 25px;
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(138, 43, 226, 0.2);
+            border-radius: 30px;
             outline: none;
             font-size: 1rem;
-            transition: border 0.3s;
+            transition: all 0.3s ease;
+            background-color: rgba(248, 249, 250, 0.9);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
         
         #user-input:focus {
-            border-color: var(--secondary);
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px rgba(247, 131, 172, 0.2), 
+                        inset 0 2px 5px rgba(0,0,0,0.05);
         }
         
         #send-btn {
-            background-color: var(--primary);
+            background: linear-gradient(45deg, var(--purple), var(--pink));
             color: white;
             border: none;
-            border-radius: 25px;
-            padding: 0 1.5rem;
-            margin-left: 0.5rem;
+            border-radius: 30px;
+            padding: 0 1.8rem;
+            margin-left: 0.8rem;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         
         #send-btn:hover {
-            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+            background: linear-gradient(45deg, var(--pink), var(--purple));
+        }
+        
+        #send-btn:active {
+            transform: translateY(0);
+        }
+        
+        #send-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        #send-btn:hover::after {
+            transform: translateX(100%);
         }
         
         .options-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            gap: 0.8rem;
+            margin-top: 1.2rem;
+            animation: fadeIn 0.5s ease-out;
         }
         
         .option-btn {
-            background-color: var(--accent);
-            color: rgb(34, 139, 219);
+            background: linear-gradient(45deg, var(--accent), #FF8787);
+            color: white;
             border: none;
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            padding: 0.7rem 1.3rem;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 0.95rem;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         
         .option-btn:hover {
-            background-color: var(--secondary);
-            transform: translateY(-2px);
+            background: linear-gradient(45deg, #FF8787, var(--accent));
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .option-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+        
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .option-btn:hover::before {
+            left: 100%;
         }
         
         .inspiration-card {
             background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid var(--primary);
+            border-radius: 15px;
+            padding: 1.8rem;
+            margin: 1.2rem 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid var(--purple);
+            animation: fadeIn 0.6s ease-out, slideUpSmall 0.6s ease-out;
+            transform-origin: top;
+            transition: all 0.3s ease;
+        }
+        
+        .inspiration-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
         }
         
         .inspiration-title {
-            color: var(--primary);
+            color: var(--purple);
             margin-top: 0;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .inspiration-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--purple), var(--pink));
+            border-radius: 3px;
+            animation: expand 1s ease-out forwards;
         }
         
         .inspiration-details {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.7;
         }
         
         .detail-label {
-            font-weight: bold;
-            color: var(--secondary);
+            font-weight: 600;
+            color: var(--pink);
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         
         .art-image {
             max-width: 100%;
-            border-radius: 8px;
-            margin: 10px 0;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            cursor: pointer;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .art-image:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
         }
         
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0,0,0,.1);
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(138, 43, 226, 0.2);
             border-radius: 50%;
-            border-top-color: var(--primary);
+            border-top-color: var(--purple);
             animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
+            margin-right: 12px;
+            vertical-align: middle;
         }
         
         .error-message {
-            color: #e74c3c;
+            color: var(--accent);
             font-style: italic;
-            margin-top: 5px;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background-color: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+            animation: shake 0.5s ease-in-out;
         }
         
+        .color-palette {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .color-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: popIn 0.4s ease-out;
+        }
+        
+        .color-swatch:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .color-swatch::after {
+            content: attr(data-color);
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            padding: 3px;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            font-size: 0.7rem;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .color-swatch:hover::after {
+            bottom: 0;
+            opacity: 1;
+        }
+        
+        /* Animations */
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -217,7 +447,7 @@
         @keyframes slideUp {
             from { 
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to { 
                 opacity: 1;
@@ -225,23 +455,162 @@
             }
         }
         
+        @keyframes slideUpSmall {
+            from { 
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(10px); }
+            to { transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px rgba(138, 43, 226, 0.1); }
+            100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.3); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes expand {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        
+        @keyframes shine {
+            from { transform: translateX(-100%) rotate(30deg); }
+            to { transform: translateX(100%) rotate(30deg); }
+        }
+        
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: linear-gradient(to right, var(--purple), var(--pink));
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle linear infinite;
+        }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive styles */
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
             }
             
+            h1 {
+                font-size: 2.2rem;
+            }
+            
             .chat-messages {
-                height: 300px;
+                height: 350px;
+                padding: 1.2rem;
             }
             
             .message {
                 max-width: 90%;
+                padding: 0.8rem 1.2rem;
+            }
+            
+            .inspiration-card {
+                padding: 1.2rem;
+            }
+            
+            .input-area {
+                padding: 0.8rem;
+            }
+            
+            #user-input {
+                padding: 0.8rem 1.2rem;
+            }
+            
+            #send-btn {
+                padding: 0 1.2rem;
             }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="particles" id="particles"></div>
+    
     <div class="container">
         <header>
             <h1>Digital Art Inspiration Assistant</h1>
@@ -270,6 +639,9 @@
             const chatMessages = document.getElementById('chat-messages');
             const userInput = document.getElementById('user-input');
             const sendBtn = document.getElementById('send-btn');
+            
+            // Create floating particles
+            createParticles();
             
             // API Configuration
             const API_CONFIG = {
@@ -339,18 +711,18 @@
                         console.error("Colormind API Error:", error);
                         return {
                             success: false,
-                            palette: ["rgb(41, 128, 185)", "rgb(142, 68, 173)", "rgb(243, 156, 18)", "rgb(231, 76, 60)", "rgb(46, 204, 113)"],
+                            palette: ["rgb(138, 43, 226)", "rgb(0, 245, 255)", "rgb(255, 107, 107)", "rgb(255, 212, 59)", "rgb(32, 201, 151)"],
                             error: error.message
                         };
                     }
                 },
                 
-                // Stability AI for image generation
+                // Stability AI for image generation (fixed to use exact prompts)
                 generateArt: async (prompt) => {
                     try {
-                        const STABILITY_KEY = 'sk-RR6So7bko5FDLBhDpnHYJyfhbXbe5E0DZRmclNzFfujHQ4A8';
+                        const STABILITY_KEY = 'sk-LT7928ckkhIXIThjQgAZ9gFepiZBPxjbeQgQbRCl8kBs1Rdk';
                         const response = await fetch(
-                            'https://api.stability.ai/v1/generation/stable-diffusion-v1-6/text-to-image',
+                            'https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image',
                             {
                                 method: 'POST',
                                 headers: {
@@ -359,18 +731,29 @@
                                     'Accept': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                    text_prompts: [{ text: prompt }],
+                                    text_prompts: [
+                                        {
+                                            text: prompt,
+                                            weight: 1.0
+                                        },
+                                        {
+                                            text: "blurry, low quality, distorted, watermark",
+                                            weight: -1.0
+                                        }
+                                    ],
                                     cfg_scale: 7,
-                                    height: 512,
-                                    width: 512,
+                                    height: 1024,
+                                    width: 1024,
                                     steps: 30,
-                                    samples: 1
+                                    samples: 1,
+                                    style_preset: "enhance" // Remove this if you want more creative results
                                 })
                             }
                         );
                         
                         if (!response.ok) {
                             const errorData = await response.json();
+                            console.error("Stability AI API Error:", errorData);
                             throw new Error(errorData.message || `API error: ${response.status}`);
                         }
                         
@@ -380,7 +763,8 @@
                         return {
                             success: true,
                             image: `data:image/png;base64,${data.artifacts[0].base64}`,
-                            credit: 'Generated with Stability AI'
+                            credit: 'Generated with Stability AI',
+                            prompt: prompt // Include the original prompt in the response
                         };
                     } catch (error) {
                         console.error("Stability AI Error:", error);
@@ -414,6 +798,35 @@
             sendBtn.addEventListener('click', sendMessage);
             userInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
             
+            // Create floating particles
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = 20;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // Random size between 5px and 15px
+                    const size = Math.random() * 10 + 5;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // Random position
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    
+                    // Random animation duration between 10s and 20s
+                    const duration = Math.random() * 10 + 10;
+                    particle.style.animation = `floatParticle ${duration}s linear infinite`;
+                    
+                    // Random delay
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
             // Core functions
             function sendMessage() {
                 const message = userInput.value.trim();
@@ -430,6 +843,12 @@
                 messageDiv.textContent = text;
                 chatMessages.appendChild(messageDiv);
                 scrollToBottom();
+                
+                // Add wave animation to the send button
+                sendBtn.innerHTML = '<i class="fas fa-paper-plane" style="animation: wave 0.5s ease-out;"></i>';
+                setTimeout(() => {
+                    sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                }, 500);
             }
             
             function addBotMessage(text, isTyping = false) {
@@ -458,6 +877,11 @@
                     btn.addEventListener('click', () => {
                         addUserMessage(option);
                         processUserInput(option);
+                        // Add button click animation
+                        btn.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            btn.style.transform = '';
+                        }, 200);
                     });
                     optionsDiv.appendChild(btn);
                 });
@@ -493,18 +917,25 @@
                         );
                     } 
                     else if (input.toLowerCase().includes('generate') || input.toLowerCase().includes('ai art')) {
-                        let prompt = input === "Generate AI art from my idea" ? 
-                            "fantasy landscape with glowing crystals" : input;
+                        let prompt = input;
+                        
+                        // If they clicked the button without typing, ask for a prompt
+                        if (input === "Generate AI art from my idea") {
+                            addBotMessage("What would you like to generate? Describe your idea:");
+                            userInput.placeholder = "What would you like to generate? Describe your idea:";
+                            userInput.focus();
+                            return;
+                        }
                         
                         typingMessage.remove();
-                        const generatingMessage = addBotMessage("Generating AI art... this may take a moment", true);
+                        const generatingMessage = addBotMessage(`Generating AI art for "${prompt}"... this may take a moment`, true);
                         
                         const artResult = await API_CONFIG.generateArt(prompt);
                         generatingMessage.remove();
                         
                         showGeneratedArt(
                             artResult.image,
-                            prompt,
+                            artResult.prompt || prompt, // Use the returned prompt if available
                             artResult.credit,
                             !artResult.success
                         );
@@ -526,14 +957,32 @@
                             !paletteResult.success
                         );
                     }
-                    else {
-                        const style = getRandomItem(artStyles);
-                        const theme = getRandomItem(themes);
-                        const paletteResult = await API_CONFIG.getColorPalette();
-                        
+                    else if (userInput.placeholder === "What would you like to generate? Describe your idea:") {
+                        // Handle the AI art prompt
                         typingMessage.remove();
-                        addBotMessage(`Based on your interest in "${input}", how about trying ${style} style with a ${theme} theme?`);
-                        showOptions(["Yes, show me examples", "Generate AI art for this", "Suggest something else"]);
+                        const generatingMessage = addBotMessage(`Generating AI art for "${input}"... this may take a moment`, true);
+                        
+                        const artResult = await API_CONFIG.generateArt(input);
+                        generatingMessage.remove();
+                        
+                        showGeneratedArt(
+                            artResult.image,
+                            artResult.prompt || input,
+                            artResult.credit,
+                            !artResult.success
+                        );
+                        
+                        // Reset placeholder
+                        userInput.placeholder = "What kind of art are you interested in today?";
+                    }
+                    else {
+                        // For free-form input, treat it as an AI art prompt
+                        typingMessage.remove();
+                        const confirmMessage = addBotMessage(`You want to generate art for "${input}". Is that correct?`);
+                        showOptions([
+                            `Yes, generate "${input}"`,
+                            "No, suggest something else"
+                        ]);
                     }
                 } catch (error) {
                     typingMessage.remove();
@@ -552,9 +1001,9 @@
                     <p class="inspiration-details"><span class="detail-label">Theme:</span> ${theme}</p>
                     <p class="inspiration-details"><span class="detail-label">Technique:</span> ${technique}</p>
                     <p class="detail-label">Color Palette:</p>
-                    <div class="color-palette" style="display: flex; gap: 5px; margin-top: 5px;">
+                    <div class="color-palette">
                         ${palette.map(color => `
-                            <div style="width: 40px; height: 40px; background-color: ${color}; border-radius: 50%;"></div>
+                            <div class="color-swatch" style="background-color: ${color};" data-color="${color}"></div>
                         `).join('')}
                     </div>
                     ${imageUrl ? `
@@ -565,6 +1014,15 @@
                     ${showError ? `<p class="error-message">Note: Some services are currently unavailable. Showing fallback content.</p>` : ''}
                     <p style="margin-top: 15px; font-style: italic;">Happy creating! 🎨</p>
                 `;
+                
+                // Add click event to color swatches
+                inspirationDiv.querySelectorAll('.color-swatch').forEach(swatch => {
+                    swatch.addEventListener('click', () => {
+                        const color = swatch.style.backgroundColor;
+                        const rgb = color.match(/\d+/g).join(',');
+                        window.findArtByColor(rgb);
+                    });
+                });
                 
                 chatMessages.appendChild(inspirationDiv);
                 scrollToBottom();
@@ -579,16 +1037,25 @@
                     <p><span class="detail-label">Prompt:</span> ${prompt}</p>
                     <img src="${imageUrl}" class="art-image" alt="Generated art">
                     <p style="font-size: 0.8rem; color: #666;">${credit}</p>
-                    ${showError ? `<p class="error-message">Note: AI service is currently unavailable. Showing example image.</p>` : ''}
+                    ${showError ? `<p class="error-message"></p>` : ''}
                     <div class="options-container" style="margin-top: 10px;">
-                        <button class="option-btn" onclick="window.regenerateArt('${prompt.replace(/'/g, "\\'")}')">
+                        <button class="option-btn regenerate-btn">
                             <i class="fas fa-sync-alt"></i> Regenerate
                         </button>
-                        <button class="option-btn" onclick="window.downloadImage('${imageUrl}', 'ai-art-${Date.now()}.jpg')">
+                        <button class="option-btn download-btn">
                             <i class="fas fa-download"></i> Download
                         </button>
                     </div>
                 `;
+                
+                // Add event listeners to the buttons
+                artDiv.querySelector('.regenerate-btn').addEventListener('click', () => {
+                    window.regenerateArt(prompt);
+                });
+                
+                artDiv.querySelector('.download-btn').addEventListener('click', () => {
+                    window.downloadImage(imageUrl, `ai-art-${Date.now()}.jpg`);
+                });
                 
                 chatMessages.appendChild(artDiv);
                 scrollToBottom();
@@ -600,17 +1067,32 @@
                 
                 paletteDiv.innerHTML = `
                     <h3 class="inspiration-title">Color Palette</h3>
-                    <div style="display: flex; gap: 5px; margin: 10px 0;">
+                    <div class="color-palette" style="margin: 15px 0;">
                         ${palette.map(color => `
-                            <div style="width: 50px; height: 50px; background-color: ${color}; border-radius: 5px;"></div>
+                            <div class="color-swatch" style="background-color: ${color};" data-color="${color}"></div>
                         `).join('')}
                     </div>
-                    <p>Colors: ${palette.join(', ')}</p>
-                    ${showError ? `<p class="error-message">Note: Color service is currently unavailable. Showing fallback palette.</p>` : ''}
-                    <button class="option-btn" style="margin-top: 10px;" onclick="window.findArtByColor('${palette[0].replace('rgb(', '').replace(')', '')}')">
+                    <p style="margin-bottom: 15px;">Colors: ${palette.join(', ')}</p>
+                    ${showError ? `<p class="error-message"></p>` : ''}
+                    <button class="option-btn find-art-btn" style="margin-top: 10px;">
                         <i class="fas fa-image"></i> Find art with dominant color
                     </button>
                 `;
+                
+                // Add click event to color swatches
+                paletteDiv.querySelectorAll('.color-swatch').forEach(swatch => {
+                    swatch.addEventListener('click', () => {
+                        const color = swatch.style.backgroundColor;
+                        const rgb = color.match(/\d+/g).join(',');
+                        window.findArtByColor(rgb);
+                    });
+                });
+                
+                // Add event listener to the find art button
+                paletteDiv.querySelector('.find-art-btn').addEventListener('click', () => {
+                    const firstColor = palette[0].replace('rgb(', '').replace(')', '');
+                    window.findArtByColor(firstColor);
+                });
                 
                 chatMessages.appendChild(paletteDiv);
                 scrollToBottom();
@@ -632,7 +1114,7 @@
                     generatingMessage.remove();
                     showGeneratedArt(
                         artResult.image,
-                        prompt,
+                        artResult.prompt || prompt,
                         artResult.credit,
                         !artResult.success
                     );
@@ -649,18 +1131,24 @@
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
+                
+                // Show download confirmation
+                const confirmation = addBotMessage(`Image downloaded as ${filename}`);
+                setTimeout(() => {
+                    confirmation.textContent = "Remember to credit the artist if sharing!";
+                }, 1500);
             };
             
             window.findArtByColor = async function(color) {
-                const searchingMessage = addBotMessage(`Finding art with color ${color}...`, true);
+                const searchingMessage = addBotMessage(`Finding art with color RGB(${color})...`, true);
                 try {
-                    const imageResult = await API_CONFIG.artExample(color);
+                    const imageResult = await API_CONFIG.artExample(`color ${color}`);
                     searchingMessage.remove();
                     
                     const artDiv = document.createElement('div');
                     artDiv.className = 'inspiration-card';
                     artDiv.innerHTML = `
-                        <h3 class="inspiration-title">Art with color ${color}</h3>
+                        <h3 class="inspiration-title">Art with color RGB(${color})</h3>
                         <img src="${imageResult.url}" class="art-image" alt="Color-themed art">
                         <p style="font-size: 0.8rem; color: #666;">${imageResult.credit}</p>
                         ${!imageResult.success ? `<p class="error-message">Note: Service is currently unavailable. Showing example image.</p>` : ''}
